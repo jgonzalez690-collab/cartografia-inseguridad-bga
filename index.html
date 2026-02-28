@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cartografía Social - Inseguridad en Bucaramanga</title>
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <style>
+        body { margin: 0; padding: 0; background-color: #2c3e50; }
+        #mapa-cartografia { width: 100vw; height: 100vh; background-color: #e5e5e5; }
+        
+        /* Estilos para los popups */
+        .popup-content { text-align: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .popup-content h3 { margin: 0 0 8px 0; color: #2c3e50; font-size: 1.2em; }
+        .popup-content p { margin: 0 0 12px 0; font-size: 0.95em; color: #333; }
+        .popup-content video { width: 100%; max-width: 280px; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        
+        /* Estilo para que los iconos resalten sobre el mapa */
+        .custom-icon i {
+            filter: drop-shadow(2px 4px 4px rgba(0,0,0,0.6));
+            transition: transform 0.2s;
+        }
+        .custom-icon i:hover {
+            transform: scale(1.2);
+        }
+    </style>
+</head>
+<body>
+
+    <div id="mapa-cartografia"></div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+
+    <script>
+        // 1. Inicializar mapa (Plano Cartesiano)
+        const map = L.map('mapa-cartografia', {
+            crs: L.CRS.Simple,
+            minZoom: -1,
+            maxZoom: 2
+        });
+
+        // 2. Cargar tu imagen base
+        const imageUrl = 'https://docs.google.com/drawings/d/e/2PACX-1vR8LUlL0Tbj7tHLWt05i7H4BU9LaDa575_ekXCP8ctxWmclerIwk-MibbQ-unWfcFHA3QSN7or-_SJg/pub?w=1440&h=1080';
+        const bounds = [[0, 0], [1080, 1440]];
+        L.imageOverlay(imageUrl, bounds).addTo(map);
+        map.fitBounds(bounds);
+
+        // --- DEFINICIÓN DE ICONOS PERSONALIZADOS (HTML/CSS) ---
+        const iconEscudo = L.divIcon({
+            html: '<i class="fa-solid fa-shield-halved" style="color: #27ae60; font-size: 28px;"></i>',
+            className: 'custom-icon',
+            iconSize: [28, 28],
+            iconAnchor: [14, 14] // Centrar el icono en la coordenada
+        });
+
+        const iconAdvertencia = L.divIcon({
+            html: '<i class="fa-solid fa-triangle-exclamation" style="color: #c0392b; font-size: 28px;"></i>',
+            className: 'custom-icon',
+            iconSize: [28, 28],
+            iconAnchor: [14, 14]
+        });
+
+        const iconCamara = L.divIcon({
+            html: '<i class="fa-solid fa-video" style="color: #2980b9; font-size: 26px;"></i>',
+            className: 'custom-icon',
+            iconSize: [26, 26],
+            iconAnchor: [13, 13]
+        });
+
+        // --- CREACIÓN DE MARCADORES CON ICONOS ---
+
+        // Grupo 1: Factores Protectores (Escudos)
+        const markerCentro = L.marker([780, 720], {icon: iconEscudo}).bindPopup(`
+            <div class="popup-content">
+                <h3 style="color:#27ae60;">Zona Institucional Protegida</h3>
+                <p>Alcaldía y Gobernación. Fuerte presencia institucional.</p>
+            </div>
+	`);
+
+
+        const markerConcordia = L.marker([550, 600], {icon: iconEscudo}).bindPopup(`
+            <div class="popup-content">
+                <h3 style="color:#27ae60;">Parque La Concordia</h3>
+                <p>Zona comercial con <b>presencia constante de policía</b> según evidencias.</p>
+                <video controls preload="metadata"><source src="video-concordia.mp4" type="video/mp4"></video>
+            </div>
+        `, { minWidth: 300 });
+
+        // Grupo 2: Puntos de Advertencia / Inseguridad
+        const markerSanPio = L.marker([500, 950], {icon: iconAdvertencia}).bindPopup(`
+            <div class="popup-content">
+                <h3 style="color:#c0392b;">Atención: Parque San Pío</h3>
+                <p>Alta afluencia nocturna y comercial (Cra 33). Foco de posibles hurtos por aglomeración.</p>
+                <video controls preload="metadata"><source src="video-sanpio.mp4" type="video/mp4"></video>
+            </div>
+        `, { minWidth: 300 });
+
+        const markerCentroPeligro = L.marker([820, 680], {icon: iconAdvertencia}).bindPopup(`
+            <div class="popup-content">
+                <h3 style="color:#c0392b;">Zona de Riesgo (Centro)</h3>
+                <p>Reportes de la comunidad indican falta de iluminación en calles aledañas al comercio.</p>
+            </div>
+        `);
+
+        // Grupo 3: Cámaras de Seguridad
+        const markerCamara1 = L.marker([650, 800], {icon: iconCamara}).bindPopup('<b>Cámara de Seguridad Operativa</b><br>Monitoreo vial.');
+        const markerCamara2 = L.marker([450, 1050], {icon: iconCamara}).bindPopup('<b>Cámara de Seguridad</b><br>Monitoreo de zona de bares.');
+
+
+        // --- MAPA DE CALOR (HEATMAP) ---
+        // Coordenadas ficticias de incidentes [y, x, intensidad del 0.1 al 1.0]
+        // Se agrupan cerca de la Cra 33 y zonas comerciales del centro para ilustrar
+        const heatData = [
+            [500, 950, 0.9], [490, 960, 0.8], [510, 940, 0.7], [505, 955, 0.6], // Clúster San Pío
+            [480, 970, 0.5], [470, 980, 0.4], // Extensión por la Cra 33
+            [820, 680, 0.8], [810, 670, 0.7], [830, 690, 0.6], [815, 685, 0.9], // Clúster Centro
+            [560, 610, 0.4], [540, 590, 0.3]  // Clúster menor en La Concordia
+        ];
+
+        const heatLayer = L.heatLayer(heatData, {
+            radius: 45,      // Tamaño del punto de calor
+            blur: 30,        // Desenfoque para que se mezclen
+            maxZoom: 2,
+            gradient: {      // Colores de la intensidad
+                0.4: 'yellow', 
+                0.6: 'orange', 
+                0.8: 'red', 
+                1.0: 'darkred'
+            }
+        });
+
+
+        // --- AGRUPAR CAPAS Y AÑADIR CONTROL ---
+        const grupoEscudos = L.layerGroup([markerCentro, markerConcordia]);
+        const grupoAdvertencias = L.layerGroup([markerSanPio, markerCentroPeligro]);
+        const grupoCamaras = L.layerGroup([markerCamara1, markerCamara2]);
+
+        // Añadir todo al mapa por defecto
+        grupoEscudos.addTo(map);
+        grupoAdvertencias.addTo(map);
+        grupoCamaras.addTo(map);
+        heatLayer.addTo(map);
+
+        // Crear el menú de control (arriba a la derecha)
+        const capasSuperpuestas = {
+            "🛡️ Factores Protectores (Policía/Institucional)": grupoEscudos,
+            "⚠️ Puntos Críticos (Advertencia)": grupoAdvertencias,
+            "📹 Cámaras de Vigilancia": grupoCamaras,
+            "🔥 Mapa de Calor (Concentración de Riesgo)": heatLayer
+        };
+
+        L.control.layers(null, capasSuperpuestas, { collapsed: false }).addTo(map);
+
+    </script>
+</body>
+</html>
