@@ -16,7 +16,7 @@
         .popup-content { text-align: center; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         .popup-content h3 { margin: 0 0 8px 0; color: #2c3e50; font-size: 1.2em; }
         .popup-content p { margin: 0 0 12px 0; font-size: 0.95em; color: #333; }
-        .popup-content video { width: 100%; max-width: 280px; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .popup-content video, .popup-content img { width: 100%; max-width: 280px; border-radius: 6px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); margin-top: 5px; }
         
         /* Estilo para que los iconos resalten sobre el mapa */
         .custom-icon i {
@@ -49,108 +49,118 @@
         L.imageOverlay(imageUrl, bounds).addTo(map);
         map.fitBounds(bounds);
 
-        // --- DEFINICIÓN DE ICONOS PERSONALIZADOS (HTML/CSS) ---
-        const iconEscudo = L.divIcon({
-            html: '<i class="fa-solid fa-shield-halved" style="color: #27ae60; font-size: 28px;"></i>',
-            className: 'custom-icon',
-            iconSize: [28, 28],
-            iconAnchor: [14, 14] // Centrar el icono en la coordenada
-        });
+        // --- DEFINICIÓN DE ICONOS PERSONALIZADOS ---
+        const iconEscudo = L.divIcon({ html: '<i class="fa-solid fa-shield-halved" style="color: #27ae60; font-size: 28px;"></i>', className: 'custom-icon', iconSize: [28, 28], iconAnchor: [14, 14] });
+        const iconAdvertencia = L.divIcon({ html: '<i class="fa-solid fa-triangle-exclamation" style="color: #c0392b; font-size: 28px;"></i>', className: 'custom-icon', iconSize: [28, 28], iconAnchor: [14, 14] });
+        const iconCamaraVideo = L.divIcon({ html: '<i class="fa-solid fa-video" style="color: #2980b9; font-size: 26px;"></i>', className: 'custom-icon', iconSize: [26, 26], iconAnchor: [13, 13] });
+        // NUEVO ICONO: Cámara de Fotos para las imágenes
+        const iconFoto = L.divIcon({ html: '<i class="fa-solid fa-camera-retro" style="color: #8e44ad; font-size: 26px;"></i>', className: 'custom-icon', iconSize: [26, 26], iconAnchor: [13, 13] });
 
-        const iconAdvertencia = L.divIcon({
-            html: '<i class="fa-solid fa-triangle-exclamation" style="color: #c0392b; font-size: 28px;"></i>',
-            className: 'custom-icon',
-            iconSize: [28, 28],
-            iconAnchor: [14, 14]
-        });
+        // --- MARCADORES ORIGINALES (Videos y Puntos de Interés) ---
+        const markerCentro = L.marker([780, 720], {icon: iconEscudo}).bindPopup('<div class="popup-content"><h3 style="color:#27ae60;">Zona Institucional</h3><p>Alcaldía y Gobernación.</p></div>');
+        const markerConcordia = L.marker([550, 600], {icon: iconEscudo}).bindPopup('<div class="popup-content"><h3 style="color:#27ae60;">Parque La Concordia</h3><video controls preload="metadata"><source src="video-concordia.mp4" type="video/mp4"></video></div>', { minWidth: 300 });
+        const markerSanPio = L.marker([500, 950], {icon: iconAdvertencia}).bindPopup('<div class="popup-content"><h3 style="color:#c0392b;">Atención: Parque San Pío</h3><video controls preload="metadata"><source src="video-sanpio.mp4" type="video/mp4"></video></div>', { minWidth: 300 });
+        const markerCentroPeligro = L.marker([820, 680], {icon: iconAdvertencia}).bindPopup('<div class="popup-content"><h3 style="color:#c0392b;">Zona de Riesgo (Centro)</h3></div>');
+        const markerCamara1 = L.marker([650, 800], {icon: iconCamaraVideo}).bindPopup('<b>Cámara de Seguridad Operativa</b>');
+        const markerCamara2 = L.marker([450, 1050], {icon: iconCamaraVideo}).bindPopup('<b>Cámara de Seguridad</b>');
 
-        const iconCamara = L.divIcon({
-            html: '<i class="fa-solid fa-video" style="color: #2980b9; font-size: 26px;"></i>',
-            className: 'custom-icon',
-            iconSize: [26, 26],
-            iconAnchor: [13, 13]
-        });
+        // --- NUEVOS MARCADORES: EVIDENCIAS FOTOGRÁFICAS ---
+        // (Las coordenadas están esparcidas para que no se amontonen, ajústalas según corresponda a cada foto)
 
-        // --- CREACIÓN DE MARCADORES CON ICONOS ---
-
-        // Grupo 1: Factores Protectores (Escudos)
-        const markerCentro = L.marker([780, 720], {icon: iconEscudo}).bindPopup(`
+        const foto1 = L.marker([790, 740], {icon: iconFoto}).bindPopup(`
             <div class="popup-content">
-                <h3 style="color:#27ae60;">Zona Institucional Protegida</h3>
-                <p>Alcaldía y Gobernación. Fuerte presencia institucional.</p>
-            </div>
-	`);
-
-
-        const markerConcordia = L.marker([550, 600], {icon: iconEscudo}).bindPopup(`
-            <div class="popup-content">
-                <h3 style="color:#27ae60;">Parque La Concordia</h3>
-                <p>Zona comercial con <b>presencia constante de policía</b> según evidencias.</p>
-                <video controls preload="metadata"><source src="video-concordia.mp4" type="video/mp4"></video>
+                <h3 style="color:#8e44ad;">Evidencia Fotográfica 1</h3>
+                <img src="https://docs.google.com/drawings/d/e/2PACX-1vSwqadudQJlfgmKZVV-1WJ1Gqn6xwcfGsfSuZP7mpepn0KX3x-CyCEMYtGDejrEImOnttexjnOcV2kF/pub?w=960&h=720" alt="Evidencia 1">
             </div>
         `, { minWidth: 300 });
 
-        // Grupo 2: Puntos de Advertencia / Inseguridad
-        const markerSanPio = L.marker([500, 950], {icon: iconAdvertencia}).bindPopup(`
+        const foto2 = L.marker([760, 710], {icon: iconFoto}).bindPopup(`
             <div class="popup-content">
-                <h3 style="color:#c0392b;">Atención: Parque San Pío</h3>
-                <p>Alta afluencia nocturna y comercial (Cra 33). Foco de posibles hurtos por aglomeración.</p>
-                <video controls preload="metadata"><source src="video-sanpio.mp4" type="video/mp4"></video>
+                <h3 style="color:#8e44ad;">Evidencia Fotográfica 2</h3>
+                <img src="https://docs.google.com/drawings/d/e/2PACX-1vRcR3LxrYehB6d8gKSir49mFuS1Eg82tUZKKjGMZurJFuGKtTk9jHjhM2zkdiet5gBLjbXofR5ljh6m/pub?w=960&h=720" alt="Evidencia 2">
             </div>
         `, { minWidth: 300 });
 
-        const markerCentroPeligro = L.marker([820, 680], {icon: iconAdvertencia}).bindPopup(`
+        const foto3 = L.marker([570, 620], {icon: iconFoto}).bindPopup(`
             <div class="popup-content">
-                <h3 style="color:#c0392b;">Zona de Riesgo (Centro)</h3>
-                <p>Reportes de la comunidad indican falta de iluminación en calles aledañas al comercio.</p>
+                <h3 style="color:#8e44ad;">Evidencia Fotográfica 3</h3>
+                <img src="https://docs.google.com/drawings/d/e/2PACX-1vQVwhBsmTMBHAJ49awsUzsMfKRihEQd51P9yjs9FfP9LevOxhRRPqYUylBjoZq7Bniavn0_geTJ3I6N/pub?w=960&h=720" alt="Evidencia 3">
             </div>
-        `);
+        `, { minWidth: 300 });
 
-        // Grupo 3: Cámaras de Seguridad
-        const markerCamara1 = L.marker([650, 800], {icon: iconCamara}).bindPopup('<b>Cámara de Seguridad Operativa</b><br>Monitoreo vial.');
-        const markerCamara2 = L.marker([450, 1050], {icon: iconCamara}).bindPopup('<b>Cámara de Seguridad</b><br>Monitoreo de zona de bares.');
+        const foto4 = L.marker([540, 580], {icon: iconFoto}).bindPopup(`
+            <div class="popup-content">
+                <h3 style="color:#8e44ad;">Evidencia Fotográfica 4</h3>
+                <img src="https://docs.google.com/drawings/d/e/2PACX-1vSsmaUIznLsRPaN42ZrB9xVEk4LFqSHkon_UXQu6AL8wsNBnx9GG7TRlovKd32bTqSuE1fR0uZJA3do/pub?w=960&h=720" alt="Evidencia 4">
+            </div>
+        `, { minWidth: 300 });
+
+        const foto5 = L.marker([490, 930], {icon: iconFoto}).bindPopup(`
+            <div class="popup-content">
+                <h3 style="color:#8e44ad;">Evidencia Fotográfica 5</h3>
+                <img src="https://docs.google.com/drawings/d/e/2PACX-1vSxCmQ9OFKTcwCtqtUAc12V9yXtRMQOOQTTQ_XUu_BsgtN9pNb815-Ib_P9frSfIyYrQwyHqGHTTR3r/pub?w=960&h=720" alt="Evidencia 5">
+            </div>
+        `, { minWidth: 300 });
+
+        const foto6 = L.marker([520, 970], {icon: iconFoto}).bindPopup(`
+            <div class="popup-content">
+                <h3 style="color:#8e44ad;">Evidencia Fotográfica 6</h3>
+                <img src="https://docs.google.com/drawings/d/e/2PACX-1vSrEd_YlRY1mgRlqNYJ3CAACX5cVWZsdbzTh2FIloMKXQvDxv2LPIrW64OAhkFE21AtqGhJ7q3-4hwa/pub?w=960&h=720" alt="Evidencia 6">
+            </div>
+        `, { minWidth: 300 });
+
+        const foto7 = L.marker([460, 950], {icon: iconFoto}).bindPopup(`
+            <div class="popup-content">
+                <h3 style="color:#8e44ad;">Evidencia Fotográfica 7</h3>
+                <img src="https://docs.google.com/drawings/d/e/2PACX-1vTvZP0G3jA5kNPBClkYqmnY9prC61JAkm_HwqIJ8AoB3VRovXeXZX5LdnJ0N_l99Etxf9oLGEjknKBN/pub?w=851&h=523" alt="Evidencia 7">
+            </div>
+        `, { minWidth: 300 });
+
+        const foto8 = L.marker([420, 1000], {icon: iconFoto}).bindPopup(`
+            <div class="popup-content">
+                <h3 style="color:#8e44ad;">Evidencia Fotográfica 8</h3>
+                <img src="https://docs.google.com/drawings/d/e/2PACX-1vT_SqKb9ObBOc85uRlW6HfLc8pzom3ErDCTmL_FH7TCoTv1St4ptG8uRmd3h3aQRK1ENDkqK0p8z-Rs/pub?w=960&h=720" alt="Evidencia 8">
+            </div>
+        `, { minWidth: 300 });
+
+        const foto9 = L.marker([380, 500], {icon: iconFoto}).bindPopup(`
+            <div class="popup-content">
+                <h3 style="color:#8e44ad;">Evidencia Fotográfica 9</h3>
+                <img src="https://docs.google.com/drawings/d/e/2PACX-1vSMoF5XUwWvmam12iFcOxKFoMlcTMPs0MGLTWGANDkBikIZOg3UiLHlobTw2de_c7EOUjU4A38tP-yy/pub?w=960&h=720" alt="Evidencia 9">
+            </div>
+        `, { minWidth: 300 });
 
 
         // --- MAPA DE CALOR (HEATMAP) ---
-        // Coordenadas ficticias de incidentes [y, x, intensidad del 0.1 al 1.0]
-        // Se agrupan cerca de la Cra 33 y zonas comerciales del centro para ilustrar
         const heatData = [
-            [500, 950, 0.9], [490, 960, 0.8], [510, 940, 0.7], [505, 955, 0.6], // Clúster San Pío
-            [480, 970, 0.5], [470, 980, 0.4], // Extensión por la Cra 33
-            [820, 680, 0.8], [810, 670, 0.7], [830, 690, 0.6], [815, 685, 0.9], // Clúster Centro
-            [560, 610, 0.4], [540, 590, 0.3]  // Clúster menor en La Concordia
+            [500, 950, 0.9], [490, 960, 0.8], [510, 940, 0.7], [505, 955, 0.6], 
+            [480, 970, 0.5], [470, 980, 0.4], 
+            [820, 680, 0.8], [810, 670, 0.7], [830, 690, 0.6], [815, 685, 0.9], 
+            [560, 610, 0.4], [540, 590, 0.3] 
         ];
-
-        const heatLayer = L.heatLayer(heatData, {
-            radius: 45,      // Tamaño del punto de calor
-            blur: 30,        // Desenfoque para que se mezclen
-            maxZoom: 2,
-            gradient: {      // Colores de la intensidad
-                0.4: 'yellow', 
-                0.6: 'orange', 
-                0.8: 'red', 
-                1.0: 'darkred'
-            }
-        });
+        const heatLayer = L.heatLayer(heatData, { radius: 45, blur: 30, maxZoom: 2, gradient: { 0.4: 'yellow', 0.6: 'orange', 0.8: 'red', 1.0: 'darkred' } });
 
 
         // --- AGRUPAR CAPAS Y AÑADIR CONTROL ---
         const grupoEscudos = L.layerGroup([markerCentro, markerConcordia]);
         const grupoAdvertencias = L.layerGroup([markerSanPio, markerCentroPeligro]);
         const grupoCamaras = L.layerGroup([markerCamara1, markerCamara2]);
+        const grupoFotos = L.layerGroup([foto1, foto2, foto3, foto4, foto5, foto6, foto7, foto8, foto9]); // Nuevo grupo
 
-        // Añadir todo al mapa por defecto
+        // Añadir al mapa por defecto
         grupoEscudos.addTo(map);
         grupoAdvertencias.addTo(map);
         grupoCamaras.addTo(map);
+        grupoFotos.addTo(map);
         heatLayer.addTo(map);
 
         // Crear el menú de control (arriba a la derecha)
         const capasSuperpuestas = {
-            "🛡️ Factores Protectores (Policía/Institucional)": grupoEscudos,
+            "🛡️ Factores Protectores (Policía)": grupoEscudos,
             "⚠️ Puntos Críticos (Advertencia)": grupoAdvertencias,
-            "📹 Cámaras de Vigilancia": grupoCamaras,
-            "🔥 Mapa de Calor (Concentración de Riesgo)": heatLayer
+            "📹 Cámaras de Video": grupoCamaras,
+            "📸 Evidencias Fotográficas": grupoFotos,
+            "🔥 Mapa de Calor (Riesgo)": heatLayer
         };
 
         L.control.layers(null, capasSuperpuestas, { collapsed: false }).addTo(map);
