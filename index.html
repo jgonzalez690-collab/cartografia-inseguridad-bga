@@ -57,8 +57,8 @@
         const iconFoto = L.divIcon({ html: '<i class="fa-solid fa-camera-retro" style="color: #8e44ad; font-size: 26px;"></i>', className: 'custom-icon', iconSize: [26, 26], iconAnchor: [13, 13] });
 
         // --- MARCADORES ORIGINALES (Videos y Puntos de Interés) ---
-        const markerCentro = L.marker([780, 720], {icon: iconEscudo}).bindPopup('<div class="popup-content"><h3 style="color:#27ae60;">Zona Institucional</h3><p>Alcaldía y Gobernación.</p></div>');
-        const markerConcordia = L.marker([550, 600], {icon: iconEscudo}).bindPopup('<div class="popup-content"><h3 style="color:#27ae60;">Parque La Concordia</h3><video controls preload="metadata"><source src="video-concordia.mp4" type="video/mp4"></video></div>', { minWidth: 300 });
+        const markerCentro = L.marker([748, 546], {icon: iconEscudo}).bindPopup('<div class="popup-content"><h3 style="color:#27ae60;">Zona Institucional</h3><p>Alcaldía y Gobernación.</p></div>');
+        const markerConcordia = L.marker([323, 806], {icon: iconEscudo}).bindPopup('<div class="popup-content"><h3 style="color:#27ae60;">Parque San Pío</h3><video controls preload="metadata"><source src="video-concordia.mp4" type="video/mp4"></video></div>', { minWidth: 300 });
         const markerSanPio = L.marker([500, 950], {icon: iconAdvertencia}).bindPopup('<div class="popup-content"><h3 style="color:#c0392b;">Atención: Parque San Pío</h3><video controls preload="metadata"><source src="video-sanpio.mp4" type="video/mp4"></video></div>', { minWidth: 300 });
         const markerCentroPeligro = L.marker([820, 680], {icon: iconAdvertencia}).bindPopup('<div class="popup-content"><h3 style="color:#c0392b;">Zona de Riesgo (Centro)</h3></div>');
         const markerCamara1 = L.marker([650, 800], {icon: iconCamaraVideo}).bindPopup('<b>Cámara de Seguridad Operativa</b>');
@@ -67,65 +67,65 @@
         // --- NUEVOS MARCADORES: EVIDENCIAS FOTOGRÁFICAS ---
         // (Las coordenadas están esparcidas para que no se amontonen, ajústalas según corresponda a cada foto)
 
-        const foto1 = L.marker([790, 740], {icon: iconFoto}).bindPopup(`
+        const foto1 = L.marker([402, 214], {icon: iconFoto}).bindPopup(`
             <div class="popup-content">
-                <h3 style="color:#8e44ad;">Ilustración 3 Ingreso a Bucaramanga de Sur a norte</h3><p>Autopista en sentido sur a norte para el ingreso a Bucaramanga esta es la vía que comunica Bogotá con Bucaramanga, la distancia por tierra es aproximadamente de 10 horas</p></div>'
+                <h3 style="color:#8e44ad;">Ilustración 1 Ingreso a Bucaramanga de Sur a norte</h3><p>Autopista en sentido sur a norte para el ingreso a Bucaramanga esta es la vía que comunica Bogotá con Bucaramanga, la distancia por tierra es aproximadamente de 10 horas</p>
                 <img src="https://docs.google.com/drawings/d/e/2PACX-1vSwqadudQJlfgmKZVV-1WJ1Gqn6xwcfGsfSuZP7mpepn0KX3x-CyCEMYtGDejrEImOnttexjnOcV2kF/pub?w=960&h=720" alt="Evidencia 1">
             </div>
         `, { minWidth: 300 });
 
-        const foto2 = L.marker([760, 710], {icon: iconFoto}).bindPopup(`
+        const foto2 = L.marker([865, 532], {icon: iconFoto}).bindPopup(`
             <div class="popup-content">
-                <h3 style="color:#8e44ad;">Evidencia Fotográfica 2</h3>
+                <h3 style="color:#8e44ad;">Ilustración 2. Sede de la alcaldía de Bucaramanga</h3>
                 <img src="https://docs.google.com/drawings/d/e/2PACX-1vRcR3LxrYehB6d8gKSir49mFuS1Eg82tUZKKjGMZurJFuGKtTk9jHjhM2zkdiet5gBLjbXofR5ljh6m/pub?w=960&h=720" alt="Evidencia 2">
             </div>
         `, { minWidth: 300 });
 
-        const foto3 = L.marker([570, 620], {icon: iconFoto}).bindPopup(`
+        const foto3 = L.marker([703, 513], {icon: iconFoto}).bindPopup(`
             <div class="popup-content">
-                <h3 style="color:#8e44ad;">Evidencia Fotográfica 3</h3>
+                <h3 style="color:#8e44ad;">Ilustración 3 Plazoleta alcaldía de Bucaramanga</h3>
                 <img src="https://docs.google.com/drawings/d/e/2PACX-1vQVwhBsmTMBHAJ49awsUzsMfKRihEQd51P9yjs9FfP9LevOxhRRPqYUylBjoZq7Bniavn0_geTJ3I6N/pub?w=960&h=720" alt="Evidencia 3">
             </div>
         `, { minWidth: 300 });
 
-        const foto4 = L.marker([540, 580], {icon: iconFoto}).bindPopup(`
+        const foto4 = L.marker([879, 665], {icon: iconFoto}).bindPopup(`
             <div class="popup-content">
-                <h3 style="color:#8e44ad;">Evidencia Fotográfica 4</h3>
+                <h3 style="color:#8e44ad;">Ilustración 4 Gobernación de Santander</h3><p>La alcaldía y la gobernación de Santander se encuentran en un sitio cercano en pleno centro de la ciudad que corresponde a la comuna15</p>
                 <img src="https://docs.google.com/drawings/d/e/2PACX-1vSsmaUIznLsRPaN42ZrB9xVEk4LFqSHkon_UXQu6AL8wsNBnx9GG7TRlovKd32bTqSuE1fR0uZJA3do/pub?w=960&h=720" alt="Evidencia 4">
             </div>
         `, { minWidth: 300 });
 
-        const foto5 = L.marker([490, 930], {icon: iconFoto}).bindPopup(`
+        const foto5 = L.marker([621, 668], {icon: iconFoto}).bindPopup(`
             <div class="popup-content">
-                <h3 style="color:#8e44ad;">Evidencia Fotográfica 5</h3>
+                <h3 style="color:#8e44ad;">Ilustración 5. Iglesia la sagrada familia</h3><p>Es la catedral de la ciudad y se ubica en el centro es un lugar muy concurrido y queda en frente del parque Santander</p>
                 <img src="https://docs.google.com/drawings/d/e/2PACX-1vSxCmQ9OFKTcwCtqtUAc12V9yXtRMQOOQTTQ_XUu_BsgtN9pNb815-Ib_P9frSfIyYrQwyHqGHTTR3r/pub?w=960&h=720" alt="Evidencia 5">
             </div>
         `, { minWidth: 300 });
 
-        const foto6 = L.marker([520, 970], {icon: iconFoto}).bindPopup(`
+        const foto6 = L.marker([381, 570], {icon: iconFoto}).bindPopup(`
             <div class="popup-content">
-                <h3 style="color:#8e44ad;">Evidencia Fotográfica 6</h3>
+                <h3 style="color:#8e44ad;">EIlustración 6.Parque la concordia</h3><p>El barrio la concordia se ubica en la comuna 6 y se caracteriza por contar con uno de los mercados más importantes y organizados de la ciudad.</p>
                 <img src="https://docs.google.com/drawings/d/e/2PACX-1vSrEd_YlRY1mgRlqNYJ3CAACX5cVWZsdbzTh2FIloMKXQvDxv2LPIrW64OAhkFE21AtqGhJ7q3-4hwa/pub?w=960&h=720" alt="Evidencia 6">
             </div>
         `, { minWidth: 300 });
 
-        const foto7 = L.marker([460, 950], {icon: iconFoto}).bindPopup(`
+        const foto7 = L.marker([490, 507], {icon: iconFoto}).bindPopup(`
             <div class="popup-content">
-                <h3 style="color:#8e44ad;">Evidencia Fotográfica 7</h3>
+                <h3 style="color:#8e44ad;">Ilustración 7.Parque la concordia</h3><p>Se puede visualizar que en este parque hay presencia constante de policía</p>
                 <img src="https://docs.google.com/drawings/d/e/2PACX-1vTvZP0G3jA5kNPBClkYqmnY9prC61JAkm_HwqIJ8AoB3VRovXeXZX5LdnJ0N_l99Etxf9oLGEjknKBN/pub?w=851&h=523" alt="Evidencia 7">
             </div>
         `, { minWidth: 300 });
 
-        const foto8 = L.marker([420, 1000], {icon: iconFoto}).bindPopup(`
+        const foto8 = L.marker([259, 873], {icon: iconFoto}).bindPopup(`
             <div class="popup-content">
-                <h3 style="color:#8e44ad;">Evidencia Fotográfica 8</h3>
+                <h3 style="color:#8e44ad;">Ilustración 8  Parque San Pio, Barrio cabecera del llano</h3><p>El parque san pio se ubica en la comuna 12 de la ciudad y es un parque con gran afluencia de personas, queda en la carrera 33, una de las principales vías de la ciudad</p>
                 <img src="https://docs.google.com/drawings/d/e/2PACX-1vT_SqKb9ObBOc85uRlW6HfLc8pzom3ErDCTmL_FH7TCoTv1St4ptG8uRmd3h3aQRK1ENDkqK0p8z-Rs/pub?w=960&h=720" alt="Evidencia 8">
             </div>
         `, { minWidth: 300 });
 
-        const foto9 = L.marker([380, 500], {icon: iconFoto}).bindPopup(`
+        const foto9 = L.marker([390, 812], {icon: iconFoto}).bindPopup(`
             <div class="popup-content">
-                <h3 style="color:#8e44ad;">Evidencia Fotográfica 9</h3>
+                <h3 style="color:#8e44ad;">Ilustración 9 Carrera 33</h3><p>La carrera 33 se caracteriza por ser una zona comercial y se ubica diferentes negocios como bares y restaurantes es una de los lugares más activos de la vida nocturna, más de tres décadas atrás era un lugar residencial, pero después fue volviéndose más comercial.</p>
                 <img src="https://docs.google.com/drawings/d/e/2PACX-1vSMoF5XUwWvmam12iFcOxKFoMlcTMPs0MGLTWGANDkBikIZOg3UiLHlobTw2de_c7EOUjU4A38tP-yy/pub?w=960&h=720" alt="Evidencia 9">
             </div>
         `, { minWidth: 300 });
@@ -136,7 +136,7 @@
             [500, 950, 0.9], [490, 960, 0.8], [510, 940, 0.7], [505, 955, 0.6], 
             [480, 970, 0.5], [470, 980, 0.4], 
             [820, 680, 0.8], [810, 670, 0.7], [830, 690, 0.6], [815, 685, 0.9], 
-            [560, 610, 0.4], [540, 590, 0.3] 
+            [560, 610, 0.4], [836, 546, 0.3] 
         ];
         const heatLayer = L.heatLayer(heatData, { radius: 45, blur: 30, maxZoom: 2, gradient: { 0.4: 'yellow', 0.6: 'orange', 0.8: 'red', 1.0: 'darkred' } });
 
